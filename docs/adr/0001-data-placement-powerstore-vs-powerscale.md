@@ -18,7 +18,7 @@ Access pattern and protocol, latency sensitivity, scale and growth, need to feed
 | A. Everything on PowerStore | One platform; unified block and file with always-on data reduction [S12] | Dell positions multi-PB scale-out file on PowerScale [S11]; growth in unstructured data would pressure it |
 | B. Everything on PowerScale | Scale-out file and object, parallel NFS/SMB/S3 [S10] | Not Dell's positioning for latency-sensitive databases and VM workloads [S10] |
 | **C. By data class** | Each workload on the platform built for it [S10] [S11] | Two platforms, two skill sets |
-| D. Cloud storage first | Elastic | Design IP must stay on site (R2); egress and latency; out of scope here |
+| D. Cloud storage first | Elastic | Design IP is kept on site (R2); egress and latency; out of scope here |
 
 ## Decision
 Option C. Placement by class:
@@ -26,7 +26,7 @@ Option C. Placement by class:
 |---|---|---|
 | Latency-sensitive databases, simulation runs, analysis tools | PowerStore | [S3] [S10] |
 | Telemetry archives, video, historical datasets, CFD outputs | PowerScale | [S3] [S10] [S11] |
-| Design IP and aero data | Stay on-premises | [S8] [S9], reading of the rules |
+| Design IP and aero data | Stay on-premises | [S30] [S8] [S9]; the rules require protection, so on-site is this analysis's choice |
 | Derived analytics data | May go to GCP (ADR-0004) | [S6] |
 
 **Analogy:** the race engineer's laptop (small, fast, needed now) versus the archive room (huge, organized, always open). You do not run the archive room from a laptop, and you do not keep the live data in the archive.

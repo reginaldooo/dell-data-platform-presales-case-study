@@ -6,7 +6,7 @@ Status: Proposed (hypothetical). Only the use of Google Cloud, BigQuery, and Loo
 
 ## Context and drivers
 - Google Cloud is McLaren's cloud partner, and BigQuery and Looker are used for race data [S6].
-- Design IP is confidential [S8]; aero and CFD are regulated [S9].
+- Design IP is confidential, and FIA rules require teams to prevent its disclosure to other teams [S30] [S8]; aero and CFD are regulated [S9].
 - Volumes: 1.5 TB per weekend, 34.5 TB per year, 46.3 Mbps average, 0.833 Gbps in a 4 h window (A1, A3 to A5).
 
 ## Decision criteria

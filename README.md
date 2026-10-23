@@ -16,7 +16,7 @@
 |---|---|
 | **Question** | Why would a team like McLaren choose these Dell products, and what would a presales architect validate first? |
 | **Method** | Classify the data, decide with ADRs, keep every number in one assumptions register, check the sizing with two calculators |
-| **Produced** | 6 decision records, 1 solution design, 1 discovery plan, 2 live calculators, 29 traced sources |
+| **Produced** | 6 decision records, 1 solution design, 1 discovery plan, 2 live calculators, 30 traced sources |
 | **Status** | Analysis of public information only. Nothing deployed, no affiliation |
 
 **Where to start**

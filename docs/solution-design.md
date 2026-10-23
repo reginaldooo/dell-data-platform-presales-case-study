@@ -29,7 +29,7 @@ This analysis covers McLaren Racing's **publicly described** use of Dell infrast
 | ID | Requirement or constraint | Tag | Risk if wrong |
 |---|---|---|---|
 | R1 | Faster post-race analysis for engineers | Assumed | Low: shapes priorities only |
-| R2 | Keep design IP on site | Public [S8] | High: placement decision changes |
+| R2 | Keep design IP and confidential engineering data protected from other teams; this analysis keeps them on site | Public for the duty [S30] [S8]; on-site placement is Assumed | High: placement decision changes |
 | R3 | Predictable spend under the cost cap | Public [S9] | Medium |
 | R4 | Tier-1 data: RPO 15 min, RTO 4 h | Assumed | Medium: protection design changes |
 | R5 | Link availability design target 99.99% | Assumed | Low |
