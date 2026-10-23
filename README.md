@@ -25,14 +25,11 @@ Explain why a team with this profile would choose these Dell products, and list 
 3. **Kept every number in one assumptions register**, tagged Public, Calculated, or Assumed, and stated as ranges where a value is a guess.
 4. **Built two small calculators** that reproduce those numbers: a capacity range and a link-sizing check.
 
-```mermaid
-flowchart LR
-  A["Classify the data<br/>who may see it, how fast, how big"] --> B["Place it<br/>PowerStore or PowerScale<br/>ADR-0001"]
-  B --> F["Size the compute<br/>inference first, training if justified<br/>ADR-0005 (hypothetical)"]
-  F --> C["Protect it<br/>replicate, back up, vault<br/>ADR-0002 (hypothetical)"]
-  C --> D["Pay for it<br/>committed plus buffer<br/>ADR-0003"]
-  D --> E["Send only derived data to the cloud<br/>ADR-0004 (hypothetical)"]
-```
+<p align="center">
+  <img src="images/decision-flow.png" alt="Decision flow: classify the data, place it on PowerStore or PowerScale (ADR-0001), size the compute (ADR-0005), protect it (ADR-0002), pay with commitment plus buffer (ADR-0003), send only derived data to the cloud (ADR-0004)" width="360">
+</p>
+
+🧪 marks a hypothetical step, not published by Dell or McLaren.
 
 High-level design (products as publicly described; the protection layer and the cloud link are hypothetical):
 
@@ -101,6 +98,7 @@ docs/
   sources.md           every claim traced to a source and its publisher
 app/                   capacity and link calculators (static page)
 tests/                 unit tests for the sizing math
+images/                decision-flow diagram
 ```
 
 ## 🚀 Run locally
