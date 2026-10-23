@@ -9,7 +9,7 @@
 
 > **"How would a presales architect reason about the data platform behind an F1 team, using only what is public?"**
 
-> **Analysis of public information. Not a proposal, and no inside knowledge.** This study uses only what Dell and McLaren Racing have published about their partnership. It has not seen McLaren's environment, and the real design is probably different. Anything beyond public facts is labelled **hypothetical** (🧪). Nothing was deployed.
+> **Analysis of public information. Not a proposal, and no inside knowledge.** This study uses only what Dell and McLaren Racing have published about their partnership. It has not seen McLaren's environment, and the real design is probably different. Anything beyond public facts is labelled **hypothetical** (🧪). No Dell solution was built or deployed; only the calculators are hosted online.
 
 ## At a glance
 | | |
@@ -17,7 +17,7 @@
 | **Question** | Why would a team like McLaren choose these Dell products, and what would a presales architect validate first? |
 | **Method** | Classify the data, decide with ADRs, keep every number in one assumptions register, check the sizing with two calculators |
 | **Produced** | 6 decision records, 1 solution design, 1 discovery plan, 2 live calculators, 30 traced sources |
-| **Status** | Analysis of public information only. Nothing deployed, no affiliation |
+| **Status** | Analysis of public information only. No Dell solution built or deployed (the calculators are hosted), no affiliation |
 
 **Where to start**
 - **2 minutes:** read [Key takeaways](#key-takeaways) and the [decision table](#decision-records).
@@ -78,7 +78,7 @@ Products are as publicly described. The protection layer, the GPU fabric, and th
 ### Limits
 - This is not McLaren's design, and public figures are vendor-published and may be optimistic.
 - It is not a Dell sizing or a quote. Protection overhead, growth, and data reduction are placeholders, and no Dell prices are stated because none are public.
-- Nothing was deployed, load-tested, or operated.
+- No Dell solution was built, deployed, load-tested, or operated. Only the calculators are deployed (static pages on Vercel).
 - Scope is one slice: no trackside design, AI Factory sizing, detailed network design (topology, port counts), aero or CFD work, or security operations.
 
 ## Calculators
