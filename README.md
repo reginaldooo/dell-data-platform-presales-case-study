@@ -36,17 +36,17 @@ High-level design (products as publicly described; the protection layer and the 
 ```mermaid
 flowchart LR
   subgraph TRACK["Trackside (existing, out of scope)"]
-    VX["Dell VxRail IT tower<br/>telemetry and VMs"]
+    VX["Dell VxRail IT tower<br/>collects telemetry and runs VMs"]
   end
-  subgraph MTC["McLaren Technology Centre (Dell on-premises)"]
-    PE["PowerEdge<br/>AI Factory compute (ADR-0005)"]
-    FAB["Ethernet GPU fabric<br/>only if jobs span servers (ADR-0006)"]
-    PS["PowerStore<br/>latency-sensitive data<br/>(APEX subscription)"]
-    PSC["PowerScale<br/>telemetry archive, video, history<br/>(APEX subscription)"]
-    PP["PowerProtect DD + Cyber Recovery vault<br/>(hypothetical, ADR-0002)"]
+  subgraph MTC["McLaren Technology Centre (Dell on-premises)<br/>storage paid with commitment plus buffer through APEX (ADR-0003)"]
+    PE["PowerEdge AI Factory<br/>runs the compute<br/>(ADR-0005)"]
+    FAB["Ethernet GPU fabric<br/>add only if jobs span servers<br/>(ADR-0006)<br/>🧪"]
+    PS["PowerStore<br/>holds latency-sensitive data<br/>(ADR-0001)"]
+    PSC["PowerScale<br/>holds archive, video, history<br/>(ADR-0001)"]
+    PP["PowerProtect DD + Cyber Recovery vault<br/>protect it by replicating, backing up, and vaulting<br/>(ADR-0002)<br/>🧪"]
   end
   subgraph GCP["Google Cloud"]
-    BQ["BigQuery + Looker<br/>derived analytics data"]
+    BQ["BigQuery + Looker<br/>receive only derived data<br/>(ADR-0004)<br/>🧪"]
   end
   VX -. "existing link" .-> PE
   PE -.- FAB
@@ -54,7 +54,7 @@ flowchart LR
   PE --- PSC
   PS --> PP
   PSC --> PP
-  PSC == "derived data only (ADR-0004)" ==> BQ
+  PSC == "derived data only" ==> BQ
   style TRACK stroke-dasharray: 5 5
   style FAB stroke-dasharray: 5 5
 ```
