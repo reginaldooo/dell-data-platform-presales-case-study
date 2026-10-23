@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capacity and link sizing</title>
+  <meta name="description" content="Two small calculators for the Dell data platform case study: a low, base, and high capacity range for storage, and how much of an HA VPN tunnel a race weekend of data uses.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700;900&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="top-link" href="https://github.com/reginaldooo/dell-data-platform-presales-case-study">Case study repo</a>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="eyebrow">Dell data platform case study</p>
+    <h1>Capacity <span class="ghost">sizing</span></h1>
+    <p class="lead">Two small calculators from the case study: a capacity range for the Dell storage platform, and how much of an HA VPN tunnel a race weekend of data uses.</p>
+    <p class="notice">Analysis of public information about McLaren Racing and Dell. Not affiliated, no inside knowledge, nothing deployed. Defaults are public figures or placeholder assumptions, tagged in the repo.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="calc" aria-labelledby="cap-title">
+    <h2 id="cap-title" class="section-title">1. Capacity: inputs</h2>
+    <p class="note intro-note">An illustration of the method with placeholder assumptions. It is not a Dell sizing and the defaults are not McLaren's capacity: real protection overhead, data reduction, and growth come from Dell sizing tools and measured data (for example Live Optics).</p>
+    <form id="cap-form" novalidate>
+      <div class="field">
+        <label for="cap-annual">New data per year (TB)</label>
+        <input id="cap-annual" type="number" inputmode="decimal" min="0" step="any" value="34.5" aria-describedby="cap-annual-hint">
+        <p class="hint" id="cap-annual-hint">34.5 TB is 1.5 TB per weekend times 23 races, an upper bound that assumes everything is kept.</p>
+      </div>
+      <div class="field">
+        <label for="cap-years">Years kept online</label>
+        <input id="cap-years" type="number" inputmode="numeric" min="1" step="1" value="10">
+        <p class="hint">Assumption. No public period is stated.</p>
+      </div>
+      <div class="field">
+        <label for="cap-growth">Yearly growth, base case (%)</label>
+        <input id="cap-growth" type="number" inputmode="decimal" min="0" step="any" value="10" aria-describedby="cap-growth-hint">
+        <p class="hint" id="cap-growth-hint">Low uses half of this, high uses double.</p>
+      </div>
+      <div class="field">
+        <label for="cap-protection">Snapshot and protection overhead (%)</label>
+        <input id="cap-protection" type="number" inputmode="decimal" min="0" step="any" value="25">
+        <p class="hint">Placeholder, not a Dell figure.</p>
+      </div>
+      <div class="field">
+        <label for="cap-headroom">Headroom (%)</label>
+        <input id="cap-headroom" type="number" inputmode="decimal" min="0" step="any" value="20">
+      </div>
+      <div class="field">
+        <label for="cap-reduction">Data-reduction ratio</label>
+        <input id="cap-reduction" type="number" inputmode="decimal" min="0" step="any" value="1" aria-describedby="cap-reduction-hint">
+        <p class="hint" id="cap-reduction-hint">1 means no reduction is assumed, because there is no public figure.</p>
+      </div>
+      <div class="field">
+        <label for="cap-buffer">Buffer capacity (% of usable)</label>
+        <input id="cap-buffer" type="number" inputmode="decimal" min="0" step="any" value="20" aria-describedby="cap-buffer-hint">
+        <p class="hint" id="cap-buffer-hint">Placeholder for a subscription buffer. Real terms come from a Dell quote.</p>
+      </div>
+    </form>
+    <p class="error" id="cap-error" role="alert" hidden></p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="results" aria-labelledby="cap-results-title">
+    <h2 id="cap-results-title" class="section-title">1. Capacity: results</h2>
+    <div aria-live="polite">
+      <dl class="spec" id="cap-spec"></dl>
+    </div>
+    <p class="note">These are ranges, not point values. Dell's APEX billing cap is 85% of installed capacity for eligible storage, data protection, and VxRail, and it excludes servers (see ADR-0003). No prices are shown because none are public.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="calc" aria-labelledby="inputs-title">
+    <h2 id="inputs-title" class="section-title">2. Link sizing (supporting): inputs</h2>
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="volume">Data per race weekend (GB)</label>
+        <input id="volume" name="volume" type="number" inputmode="decimal" min="0" step="any" value="1500" aria-describedby="volume-hint">
+        <p class="hint" id="volume-hint">1,500 GB is the 1.5 TB McLaren states per race weekend. Treated as a high-side assumption for what is copied.</p>
+      </div>
+      <div class="field">
+        <label for="window">Post-race copy window (hours)</label>
+        <input id="window" name="window" type="number" inputmode="decimal" min="0" step="any" value="4">
+      </div>
+      <div class="field">
+        <label for="weekend">Weekend length (hours)</label>
+        <input id="weekend" name="weekend" type="number" inputmode="decimal" min="0" step="any" value="72">
+      </div>
+      <div class="field">
+        <label for="races">Races per year</label>
+        <input id="races" name="races" type="number" inputmode="numeric" min="1" step="1" value="23" aria-describedby="races-hint">
+        <p class="hint" id="races-hint">23 Grands Prix on the 2026 calendar, per Formula 1. Dell's partnership page still states 22.</p>
+      </div>
+      <div class="field">
+        <label for="capacity">Capacity per tunnel</label>
+        <select id="capacity" name="capacity" aria-describedby="capacity-hint">
+          <option value="1" selected>1 Gbps (low end)</option>
+          <option value="2">2 Gbps</option>
+          <option value="3">3 Gbps (high end)</option>
+        </select>
+        <p class="hint" id="capacity-hint">Google: 250,000 packets per second per tunnel, roughly 1 to 3 Gbps depending on packet size.</p>
+      </div>
+      <div class="field">
+        <label for="tunnels">Tunnels in the design</label>
+        <select id="tunnels" name="tunnels">
+          <option value="2" selected>2 (99.99% design)</option>
+          <option value="4">4</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+    </form>
+    <p class="error" id="error" role="alert" hidden></p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="results" aria-labelledby="results-title">
+    <h2 id="results-title" class="section-title">2. Link sizing (supporting): results</h2>
+    <div id="results" aria-live="polite">
+      <dl class="spec" id="spec"></dl>
+
+      <h3 class="sub-title">Tunnel utilization during the copy window</h3>
+      <div id="chart" class="chart"></div>
+      <p class="verdict" id="verdict"></p>
+    </div>
+    <p class="note">The 50% line is Google's guidance: stay under 50% of a tunnel so the other tunnel can absorb a failure. See <a href="https://github.com/reginaldooo/dell-data-platform-presales-case-study/blob/main/docs/adr/0004-cloud-analytics-and-connectivity.md">ADR-0004</a> and the <a href="https://github.com/reginaldooo/dell-data-platform-presales-case-study/blob/main/docs/solution-design.md#7-assumptions-register-single-source-of-truth-for-numbers">assumptions register</a>.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Muhammad Farrel Reginaldo Ahnaf. All figures are public numbers, arithmetic, or assumptions, tagged in the repo.</p>
+</footer>
+
+<script src="sizing.js"></script>
+<script src="main.js"></script>
+<script src="capacity.js"></script>
+</body>
+</html>

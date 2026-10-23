@@ -1,0 +1,7 @@
+{
+  "name": "dell-data-platform-presales-case-study",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}
