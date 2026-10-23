@@ -26,7 +26,7 @@ Explain why a team with this profile would choose these Dell products, and list 
 4. **Built two small calculators** that reproduce those numbers: a capacity range and a link-sizing check.
 
 <p align="center">
-  <img src="images/decision-flow.png" alt="Decision flow: classify the data, place it on PowerStore or PowerScale (ADR-0001), size the compute (ADR-0005), protect it (ADR-0002), pay with commitment plus buffer (ADR-0003), send only derived data to the cloud (ADR-0004)" width="360">
+  <img src="images/decision-flow.png" alt="Decision flow: classify the data, place it on PowerStore or PowerScale (ADR-0001), size the compute (ADR-0005), protect it (ADR-0002), pay with commitment plus buffer (ADR-0003), send only derived data to the cloud (ADR-0004)" width="760">
 </p>
 
 🧪 marks a hypothetical step, not published by Dell or McLaren.
