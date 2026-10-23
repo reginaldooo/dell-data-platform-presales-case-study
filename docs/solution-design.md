@@ -38,31 +38,9 @@ This analysis covers McLaren Racing's **publicly described** use of Dell infrast
 | C2 | Aero and CFD data stay on site | Public [S9], reading of the rules | High |
 
 ## 5. High-level design
-```mermaid
-flowchart LR
-  subgraph TRACK["Trackside (existing, out of scope)"]
-    VX["Dell VxRail IT tower<br/>collects telemetry and runs VMs"]
-  end
-  subgraph MTC["McLaren Technology Centre (Dell on-premises)<br/>storage paid with commitment plus buffer through APEX (ADR-0003)"]
-    PE["PowerEdge AI Factory<br/>runs the compute<br/>(ADR-0005)"]
-    FAB["Ethernet GPU fabric<br/>add only if jobs span servers<br/>(ADR-0006)<br/>🧪"]
-    PS["PowerStore<br/>holds latency-sensitive data<br/>(ADR-0001)"]
-    PSC["PowerScale<br/>holds archive, video, history<br/>(ADR-0001)"]
-    PP["PowerProtect DD + Cyber Recovery vault<br/>protect it by replicating, backing up, and vaulting<br/>(ADR-0002)<br/>🧪"]
-  end
-  subgraph GCP["Google Cloud"]
-    BQ["BigQuery + Looker<br/>receive only derived data<br/>(ADR-0004)<br/>🧪"]
-  end
-  VX -. "existing link" .-> PE
-  PE -.- FAB
-  PE --- PS
-  PE --- PSC
-  PS --> PP
-  PSC --> PP
-  PSC == "derived data only" ==> BQ
-  style TRACK stroke-dasharray: 5 5
-  style FAB stroke-dasharray: 5 5
-```
+<p align="center">
+  <img src="../images/high-level-design.png" alt="High-level design: the trackside Dell VxRail IT tower connects over an existing link to PowerEdge AI Factory compute at the McLaren Technology Centre (ADR-0005). PowerEdge uses PowerStore and PowerScale (ADR-0001) and an Ethernet GPU fabric only if jobs span servers (ADR-0006). PowerStore is protected by PowerProtect DD and a Cyber Recovery vault (ADR-0002). PowerScale sends derived data only to BigQuery and Looker on Google Cloud (ADR-0004). Storage is paid through APEX (ADR-0003)." width="760">
+</p>
 Which product sits where is based on [S2] [S3] [S4]; the exact placement inside the MTC, the protection layer, and the cloud link design are assumptions of this analysis.
 
 ## 6. Decision log

@@ -1,4 +1,4 @@
-# 🏁 Dell Data Platform for an F1 Team: A Presales Analysis of a Public Story
+# Dell Data Platform for an F1 Team: A Presales Analysis of a Public Story
 
 [![GitHub](https://img.shields.io/badge/GitHub-reginaldooo-181717?logo=github&style=flat-square)](https://github.com/reginaldooo)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-farrel--reginaldo-0A66C2?logo=linkedin&style=flat-square)](https://linkedin.com/in/farrel-reginaldo)
@@ -9,56 +9,52 @@
 
 > **"How would a presales architect reason about the data platform behind an F1 team, using only what is public?"**
 
-> ⚠️ **Analysis of public information. Not a proposal, and no inside knowledge.** This study uses only what Dell and McLaren Racing have published about their partnership. It has not seen McLaren's environment, and the real design is probably different. Anything beyond public facts is labelled **hypothetical** (🧪). Nothing was deployed.
+> **Analysis of public information. Not a proposal, and no inside knowledge.** This study uses only what Dell and McLaren Racing have published about their partnership. It has not seen McLaren's environment, and the real design is probably different. Anything beyond public facts is labelled **hypothetical** (🧪). Nothing was deployed.
 
-## 📖 Situation
+## At a glance
+| | |
+|---|---|
+| **Question** | Why would a team like McLaren choose these Dell products, and what would a presales architect validate first? |
+| **Method** | Classify the data, decide with ADRs, keep every number in one assumptions register, check the sizing with two calculators |
+| **Produced** | 6 decision records, 1 solution design, 1 discovery plan, 2 live calculators, 29 traced sources |
+| **Status** | Analysis of public information only. Nothing deployed, no affiliation |
+
+**Where to start**
+- **2 minutes:** read [Key takeaways](#key-takeaways) and the [decision table](#decision-records).
+- **10 minutes:** read the [solution design](docs/solution-design.md), then one ADR such as [ADR-0001](docs/adr/0001-data-placement-powerstore-vs-powerscale.md).
+- **To see the method:** open the [live calculators](https://dell-data-platform-presales-case-st.vercel.app/) and the [discovery plan](docs/discovery-approach.md).
+
+## Situation
 McLaren Racing has been a Dell partner since 2018 [S1]. Publicly, the team produces about 1.5 TB of data per race weekend across 23 Grands Prix in 2026 [S2] [S7]. That data runs on Dell PowerEdge servers, with PowerStore for latency-sensitive work and PowerScale for telemetry archives, video, and history [S2] [S3]. Storage is consumed through Dell APEX Infrastructure [S3]. Google Cloud is the team's Official Cloud partner, with BigQuery and Looker used for race data [S6].
 
 Not public: how data is protected, how it moves to Google Cloud, which servers and GPUs are used, and any capacity or contract figure. This study treats those as open questions.
 
-## 🎯 Task
+## Task
 Explain why a team with this profile would choose these Dell products, and list what a presales architect would validate before recommending anything. The result is an analysis of a public story, not advice to the customer.
 
-## 🛠️ Action
+## Action
+
+### Approach
 1. **Classified the data** by access pattern, speed, and sensitivity, because the product choice follows the data class.
 2. **Wrote six decision records (ADRs)**, each with options, pros and cons, confidence, revisit triggers, and one analogy for non-technical readers.
 3. **Kept every number in one assumptions register**, tagged Public, Calculated, or Assumed, and stated as ranges where a value is a guess.
 4. **Built two small calculators** that reproduce those numbers: a capacity range and a link-sizing check.
 
+### Decision flow
 <p align="center">
   <img src="images/decision-flow.png" alt="Decision flow: classify the data, place it on PowerStore or PowerScale (ADR-0001), size the compute (ADR-0005), protect it (ADR-0002), pay with commitment plus buffer (ADR-0003), send only derived data to the cloud (ADR-0004)" width="760">
 </p>
 
-🧪 marks a hypothetical step, not published by Dell or McLaren. The PNG above shows ADR-0001 to ADR-0005; the Mermaid diagram below also shows ADR-0006 (network fabric), which extends ADR-0005.
+🧪 marks a hypothetical step, not published by Dell or McLaren. This diagram shows ADR-0001 to ADR-0005; ADR-0006 (network fabric) extends ADR-0005 and appears in the high-level design below.
 
-High-level design (products as publicly described; the protection layer and the cloud link are hypothetical):
+### High-level design
+Products are as publicly described. The protection layer, the GPU fabric, and the cloud link are hypothetical.
 
-```mermaid
-flowchart LR
-  subgraph TRACK["Trackside (existing, out of scope)"]
-    VX["Dell VxRail IT tower<br/>collects telemetry and runs VMs"]
-  end
-  subgraph MTC["McLaren Technology Centre (Dell on-premises)<br/>storage paid with commitment plus buffer through APEX (ADR-0003)"]
-    PE["PowerEdge AI Factory<br/>runs the compute<br/>(ADR-0005)"]
-    FAB["Ethernet GPU fabric<br/>add only if jobs span servers<br/>(ADR-0006)<br/>🧪"]
-    PS["PowerStore<br/>holds latency-sensitive data<br/>(ADR-0001)"]
-    PSC["PowerScale<br/>holds archive, video, history<br/>(ADR-0001)"]
-    PP["PowerProtect DD + Cyber Recovery vault<br/>protect it by replicating, backing up, and vaulting<br/>(ADR-0002)<br/>🧪"]
-  end
-  subgraph GCP["Google Cloud"]
-    BQ["BigQuery + Looker<br/>receive only derived data<br/>(ADR-0004)<br/>🧪"]
-  end
-  VX -. "existing link" .-> PE
-  PE -.- FAB
-  PE --- PS
-  PE --- PSC
-  PS --> PP
-  PSC --> PP
-  PSC == "derived data only" ==> BQ
-  style TRACK stroke-dasharray: 5 5
-  style FAB stroke-dasharray: 5 5
-```
+<p align="center">
+  <img src="images/high-level-design.png" alt="High-level design: the trackside Dell VxRail IT tower connects over an existing link to PowerEdge AI Factory compute at the McLaren Technology Centre (ADR-0005). PowerEdge uses PowerStore and PowerScale (ADR-0001) and an Ethernet GPU fabric only if jobs span servers (ADR-0006). PowerStore is protected by PowerProtect DD and a Cyber Recovery vault (ADR-0002). PowerScale sends derived data only to BigQuery and Looker on Google Cloud (ADR-0004). Storage is paid through APEX (ADR-0003)." width="760">
+</p>
 
+### Decision records
 | ADR | Decision | Analogy | Basis |
 |---|---|---|---|
 | [0001](docs/adr/0001-data-placement-powerstore-vs-powerscale.md) | Place data by class: PowerStore for latency-sensitive work, PowerScale for large unstructured data [S10] [S11] | The race engineer's laptop (small, fast, now) versus the archive room (huge, organized) | 🟢 |
@@ -70,9 +66,9 @@ flowchart LR
 
 🟢 reasoning from public facts · 🧪 hypothetical, not published by Dell or McLaren
 
-## ✅ Result
+## Result
 
-### 📊 Key takeaways
+### Key takeaways
 1. **The product choice follows the data class.** Latency-sensitive databases and analysis tools suit PowerStore, while large unstructured data suits PowerScale, which matches both McLaren's public description and Dell's own guidance [S3] [S10] [S11].
 2. **One eligibility detail can change the answer.** The APEX billing cap covers storage, data protection, and VxRail, but not servers, and dark sites are not eligible [S14].
 3. **The volume is small, so the link is not the hard part.** At most 34.5 TB of new data per year, 46 Mbps on average, or 0.83 Gbps if copied in a 4 h window (calculated from [S2] and [S7]; upper bounds that assume everything is kept).
@@ -85,30 +81,29 @@ flowchart LR
 - Nothing was deployed, load-tested, or operated.
 - Scope is one slice: no trackside design, AI Factory sizing, detailed network design (topology, port counts), aero or CFD work, or security operations.
 
-## 🧮 Calculators
+## Calculators
 **Live: https://dell-data-platform-presales-case-st.vercel.app/**
 
 Two small static calculators (source in [`app/`](app/)), with the math covered by 15 tests: a **capacity range** (low, base, and high usable capacity from placeholder assumptions, illustrative only) and a **link-sizing** check (share of an HA VPN tunnel used by a race weekend of data, including the one-tunnel-down case).
 
-## 🗂️ Project structure
-```
-docs/
-  solution-design.md   scope, public facts, requirements, design, assumptions register, risks
-  adr/                 six decision records
-  discovery-approach.md   how assumptions would be replaced with measured data (Live Optics), plus business (SPIN) and network questions
-  sources.md           every claim traced to a source and its publisher
-app/                   capacity and link calculators (static page)
-tests/                 unit tests for the sizing math
-images/                decision-flow diagram
-```
+## Explore the repo
+| Path | What it holds |
+|---|---|
+| [`docs/solution-design.md`](docs/solution-design.md) | Scope, public facts, requirements, design, assumptions register, risks |
+| [`docs/adr/`](docs/adr/) | Six decision records |
+| [`docs/discovery-approach.md`](docs/discovery-approach.md) | How assumptions would be replaced with measured data (Live Optics), plus business (SPIN) and network questions |
+| [`docs/sources.md`](docs/sources.md) | Every claim traced to a source and its publisher |
+| [`app/`](app/) | Capacity and link calculators (static page) |
+| [`tests/`](tests/) | Unit tests for the sizing math |
+| [`images/`](images/) | Decision-flow and high-level design diagrams |
 
-## 🚀 Run locally
+## Run locally
 ```bash
 cd app && python3 -m http.server 8765   # open http://localhost:8765
 npm test                                # from the repo root
 ```
 
-## ⚖️ Sources, attribution, and notices
+## Sources, attribution, and notices
 All claims trace to [`docs/sources.md`](docs/sources.md). Method: ADRs follow the Nygard/MADR style and are superseded rather than edited [S22] [S23]; numbers and confidence levels follow presales practice [S24]; customer names and results appear only as already published [S25].
 
 McLaren, Dell, and Google are trademarks of their owners. No logos are used, no affiliation is claimed, and no endorsement is implied.
