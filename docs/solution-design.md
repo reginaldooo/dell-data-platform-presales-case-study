@@ -10,7 +10,7 @@ This analysis covers McLaren Racing's **publicly described** use of Dell infrast
 |---|---|
 | Data platform at the McLaren Technology Centre (MTC): where each class of data lives | Trackside IT tower and the link to the MTC (already exists [S4] [S5]) |
 | Data protection and cyber recovery (hypothetical) | Car design, aero, and CFD solver workloads (regulated [S9]); CFD outputs are covered only as stored data (ADR-0001) |
-| Consumption model for storage | AI Factory GPU sizing, Dell networking design, live telemetry, security operations |
+| Consumption model for storage | AI Factory GPU sizing, detailed network design (topology, port counts; the decision is in ADR-0006), live telemetry, security operations |
 | What goes to cloud analytics and how | Google Cloud network build (VPC layout, Terraform), real deployment of anything |
 
 ## 3. What is public
@@ -45,23 +45,23 @@ flowchart LR
   end
   subgraph MTC["McLaren Technology Centre (Dell on-premises)"]
     PE["PowerEdge<br/>AI Factory compute (ADR-0005)"]
-    PS["PowerStore<br/>latency-sensitive data"]
-    PSC["PowerScale<br/>telemetry archive, video, history"]
-    PP["PowerProtect DD + Cyber Recovery vault<br/>(hypothetical)"]
-    APEX["APEX Infrastructure<br/>subscription for storage"]
+    FAB["Ethernet GPU fabric<br/>only if jobs span servers (ADR-0006)"]
+    PS["PowerStore<br/>latency-sensitive data<br/>(APEX subscription)"]
+    PSC["PowerScale<br/>telemetry archive, video, history<br/>(APEX subscription)"]
+    PP["PowerProtect DD + Cyber Recovery vault<br/>(hypothetical, ADR-0002)"]
   end
   subgraph GCP["Google Cloud"]
     BQ["BigQuery + Looker<br/>derived analytics data"]
   end
   VX -. "existing link" .-> PE
+  PE -.- FAB
   PE --- PS
   PE --- PSC
   PS --> PP
   PSC --> PP
-  PS --- APEX
-  PSC --- APEX
   PSC == "derived data only (ADR-0004)" ==> BQ
-  style TRACK fill:#eeeeee,stroke:#999999
+  style TRACK stroke-dasharray: 5 5
+  style FAB stroke-dasharray: 5 5
 ```
 Which product sits where is based on [S2] [S3] [S4]; the exact placement inside the MTC, the protection layer, and the cloud link design are assumptions of this analysis.
 
@@ -75,6 +75,7 @@ Which product sits where is based on [S2] [S3] [S4]; the exact placement inside 
 | [0003](adr/0003-consumption-model-apex-vs-purchase.md) | Subscribe through APEX with committed plus buffer capacity | Analysis of public facts |
 | [0004](adr/0004-cloud-analytics-and-connectivity.md) | Send derived data only to GCP over HA VPN | Hypothetical |
 | [0005](adr/0005-compute-and-ai-placement.md) | Size AI compute by workload class: inference-class PowerEdge first, training only when justified | Hypothetical |
+| [0006](adr/0006-network-fabric-for-ai.md) | Keep the site network first; add a dedicated Ethernet GPU fabric only when AI work spans several servers | Hypothetical |
 
 ## 7. Assumptions register (single source of truth for numbers)
 Numbers elsewhere in this repo must match this table. The calculator in [`app/`](../app/) uses these defaults.

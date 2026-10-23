@@ -21,7 +21,7 @@ Explain why a team with this profile would choose these Dell products, and list 
 
 ## 🛠️ Action
 1. **Classified the data** by access pattern, speed, and sensitivity, because the product choice follows the data class.
-2. **Wrote five decision records (ADRs)**, each with options, pros and cons, confidence, revisit triggers, and one analogy for non-technical readers.
+2. **Wrote six decision records (ADRs)**, each with options, pros and cons, confidence, revisit triggers, and one analogy for non-technical readers.
 3. **Kept every number in one assumptions register**, tagged Public, Calculated, or Assumed, and stated as ranges where a value is a guess.
 4. **Built two small calculators** that reproduce those numbers: a capacity range and a link-sizing check.
 
@@ -29,7 +29,7 @@ Explain why a team with this profile would choose these Dell products, and list 
   <img src="images/decision-flow.png" alt="Decision flow: classify the data, place it on PowerStore or PowerScale (ADR-0001), size the compute (ADR-0005), protect it (ADR-0002), pay with commitment plus buffer (ADR-0003), send only derived data to the cloud (ADR-0004)" width="760">
 </p>
 
-🧪 marks a hypothetical step, not published by Dell or McLaren.
+🧪 marks a hypothetical step, not published by Dell or McLaren. The PNG above shows ADR-0001 to ADR-0005; the Mermaid diagram below also shows ADR-0006 (network fabric), which extends ADR-0005.
 
 High-level design (products as publicly described; the protection layer and the cloud link are hypothetical):
 
@@ -40,23 +40,23 @@ flowchart LR
   end
   subgraph MTC["McLaren Technology Centre (Dell on-premises)"]
     PE["PowerEdge<br/>AI Factory compute (ADR-0005)"]
-    PS["PowerStore<br/>latency-sensitive data"]
-    PSC["PowerScale<br/>telemetry archive, video, history"]
-    PP["PowerProtect DD + Cyber Recovery vault<br/>(hypothetical)"]
-    APEX["APEX Infrastructure<br/>subscription for storage"]
+    FAB["Ethernet GPU fabric<br/>only if jobs span servers (ADR-0006)"]
+    PS["PowerStore<br/>latency-sensitive data<br/>(APEX subscription)"]
+    PSC["PowerScale<br/>telemetry archive, video, history<br/>(APEX subscription)"]
+    PP["PowerProtect DD + Cyber Recovery vault<br/>(hypothetical, ADR-0002)"]
   end
   subgraph GCP["Google Cloud"]
     BQ["BigQuery + Looker<br/>derived analytics data"]
   end
   VX -. "existing link" .-> PE
+  PE -.- FAB
   PE --- PS
   PE --- PSC
   PS --> PP
   PSC --> PP
-  PS --- APEX
-  PSC --- APEX
   PSC == "derived data only (ADR-0004)" ==> BQ
-  style TRACK fill:#eeeeee,stroke:#999999
+  style TRACK stroke-dasharray: 5 5
+  style FAB stroke-dasharray: 5 5
 ```
 
 | ADR | Decision | Analogy | Basis |
@@ -66,6 +66,7 @@ flowchart LR
 | [0003](docs/adr/0003-consumption-model-apex-vs-purchase.md) | Subscribe through APEX: committed baseline plus buffer, instead of buying for peak [S14] | Spare cars already in the garage; pay only for the ones raced | 🟢 |
 | [0004](docs/adr/0004-cloud-analytics-and-connectivity.md) | Send derived data only to Google Cloud over HA VPN [S19] | The setup sheet stays in the garage; only the race summary goes on the pit-wall screen | 🧪 |
 | [0005](docs/adr/0005-compute-and-ai-placement.md) | Size AI compute by workload class: inference-class PowerEdge first, training only when justified [S26] [S27] | The pit crew (many small, fast jobs) versus the machine shop (one big, long job) | 🧪 |
+| [0006](docs/adr/0006-network-fabric-for-ai.md) | Keep the site network first; add a dedicated Ethernet GPU fabric only when AI work spans several servers [S27] [S28] [S29] | The main road versus the pit lane: close off a lane only when cars must move in lockstep | 🧪 |
 
 🟢 reasoning from public facts · 🧪 hypothetical, not published by Dell or McLaren
 
@@ -82,7 +83,7 @@ flowchart LR
 - This is not McLaren's design, and public figures are vendor-published and may be optimistic.
 - It is not a Dell sizing or a quote. Protection overhead, growth, and data reduction are placeholders, and no Dell prices are stated because none are public.
 - Nothing was deployed, load-tested, or operated.
-- Scope is one slice: no trackside design, AI Factory sizing, Dell networking design, aero or CFD work, or security operations.
+- Scope is one slice: no trackside design, AI Factory sizing, detailed network design (topology, port counts), aero or CFD work, or security operations.
 
 ## 🧮 Calculators
 **Live: https://dell-data-platform-presales-case-st.vercel.app/**
@@ -93,8 +94,8 @@ Two small static calculators (source in [`app/`](app/)), with the math covered b
 ```
 docs/
   solution-design.md   scope, public facts, requirements, design, assumptions register, risks
-  adr/                 five decision records
-  discovery-approach.md   how assumptions would be replaced with measured data (Live Optics)
+  adr/                 six decision records
+  discovery-approach.md   how assumptions would be replaced with measured data (Live Optics), plus business (SPIN) and network questions
   sources.md           every claim traced to a source and its publisher
 app/                   capacity and link calculators (static page)
 tests/                 unit tests for the sizing math

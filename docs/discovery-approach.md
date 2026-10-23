@@ -22,3 +22,19 @@ Date: 2026-10-23. Source IDs point to [`sources.md`](sources.md). This is a plan
 | Consumption (ADR-0003) | How variable is demand across the calendar? Are there air-gapped or non-metered segments (which affect APEX eligibility [S14])? How does the cost cap treat subscription spend? |
 | Compute and AI (ADR-0005) | Which workloads are training, fine-tuning, inference, or analytics? Which models, and how many users or jobs at once? Where does the input data live and how large is it? Does any workload span several servers and need a GPU fabric? What power and cooling headroom exists? |
 | Cloud and link (ADR-0004) | Which datasets may leave the site? How much goes to the cloud after each event, and how fresh must it be? What VPN device sits at the site, and does it support BGP and redundancy? |
+| Network (ADR-0004, ADR-0006) | What link speeds and redundancy connect the site, the trackside tower, and the cloud? Where would a link outage hurt first? If AI work spans several servers, what network would carry GPU-to-GPU traffic [S27] [S28]? What switching exists today, and what is its port and speed headroom? |
+
+## 3. Business discovery (SPIN, hypothetical)
+Technical answers only matter if they tie to a business pain. These questions go first in a real call and follow the SPIN order: Situation, Problem, Implication, Need-payoff. The answers are unknown here, so each row says what it would change.
+
+| Stage | Question | What it would change |
+|---|---|---|
+| Situation | Who uses race-weekend data after the event, and how soon do they need it? | Which data class is urgent (ADR-0001) |
+| Situation | What does the weekly and seasonal calendar look like, and what is fixed? | Burst versus steady sizing (ADR-0003) |
+| Problem | Where do people wait today: for data to arrive, for analysis to run, or for a restore? | Whether the pain is placement, compute, or protection |
+| Problem | What happens when capacity runs short or a system is slow during a race weekend? | Priority of headroom versus cost |
+| Implication | What does that wait cost: a missed decision window, engineer hours, or a repeated job? | Business case and urgency |
+| Implication | If a restore failed or data were locked by ransomware, what would stop, and for how long? | Need for the Cyber Recovery vault (ADR-0002) |
+| Implication | How do the cost-cap rules affect what can be spent, and when? | Subscription versus purchase (ADR-0003) |
+| Need-payoff | If post-race data were ready sooner, what would the team do differently? | Success metric (no target exists yet) |
+| Need-payoff | What would make this a success in 12 months, and who signs it off? | Decision path, budget range, timeline |
