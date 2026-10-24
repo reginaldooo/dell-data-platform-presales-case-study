@@ -19,7 +19,7 @@ This analysis covers McLaren Racing's **publicly described** use of Dell infrast
 | Topic | Public statement | Source |
 |---|---|---|
 | Relationship | Dell Technologies has partnered with McLaren Racing since 2018 and is Official Innovation Partner | [S1] |
-| Volume | About 1.5 TB per race weekend, 23 Grands Prix on the 2026 calendar | [S2] [S7] |
+| Volume | About 1.5 TB per race weekend for the Formula 1 team, 23 Grands Prix on the 2026 calendar | [S2] [S7] |
 | Compute | Dell AI Factory including PowerEdge servers | [S2] |
 | Storage | PowerStore for latency-sensitive work; PowerScale for telemetry archives, video, history | [S3] |
 | Consumption | Storage is subscribed through Dell APEX Infrastructure | [S3] |
@@ -62,7 +62,7 @@ Numbers elsewhere in this repo must match this table. The calculator in [`app/`]
 
 | ID | Value | Tag | Source or basis | Risk if wrong | How to validate |
 |---|---|---|---|---|---|
-| A1 | 1.5 TB per race weekend | Public | [S2] | Medium | Ask the customer for measured volume; run Live Optics on file and storage [S18] |
+| A1 | 1.5 TB per race weekend (Formula 1 team; sources say "generates" or "processes") | Public | [S2] | Medium | Ask the customer for measured volume; run Live Optics on file and storage [S18] |
 | A2 | 23 races in 2026 | Public | [S7]. Dell's page still says 22; the Formula 1 calendar shows 23 after the Bahrain race moved to Sepang | Low | Race calendar |
 | A3 | 34.5 TB of new data per year (1.5 x 23) | Calculated | A1, A2. Upper bound: assumes all of it is kept | Medium | Measured retention |
 | A4 | 46.3 Mbps average over a 72 h weekend | Calculated | A1 | Low | Link monitoring |
