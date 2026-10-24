@@ -5,6 +5,8 @@ Status: Draft v1, 2026-10-23. Tags: **Public** (cited), **Calculated** (from sta
 ## 1. Purpose and framing
 This analysis covers McLaren Racing's **publicly described** use of Dell infrastructure and asks: *why would a team like this choose these products, and what would a presales architect validate first?* It is not a proposal and uses no inside knowledge. Anything beyond public facts is labelled **hypothetical**.
 
+**Names.** *McLaren Racing* is the organization Dell Technologies partners with. It includes the McLaren Mastercard Formula 1 Team, which produces the race-weekend data. After first use, *Dell* and *McLaren* are short for Dell Technologies and McLaren Racing.
+
 ## 2. Scope
 | In scope | Out of scope |
 |---|---|
@@ -16,7 +18,7 @@ This analysis covers McLaren Racing's **publicly described** use of Dell infrast
 ## 3. What is public
 | Topic | Public statement | Source |
 |---|---|---|
-| Relationship | Dell has partnered with McLaren since 2018 and is Official Innovation Partner | [S1] |
+| Relationship | Dell Technologies has partnered with McLaren Racing since 2018 and is Official Innovation Partner | [S1] |
 | Volume | About 1.5 TB per race weekend, 23 Grands Prix on the 2026 calendar | [S2] [S7] |
 | Compute | Dell AI Factory including PowerEdge servers | [S2] |
 | Storage | PowerStore for latency-sensitive work; PowerScale for telemetry archives, video, history | [S3] |
@@ -94,4 +96,4 @@ Capacity illustration with these placeholders (10 years, 34.5 TB per year): the 
 Metrics: restore time versus RTO, capacity used versus the plan range, and link use versus 50% of tunnel capacity. Time until post-race data is available in analytics has no target; a baseline comes first.
 
 ## 10. Not covered, and notices
-Not covered: trackside design, real McLaren contracts, Dell product pricing, and anything under NDA. McLaren, Dell, and Google are trademarks of their owners. No affiliation or endorsement is implied, and no logos are used.
+Not covered: trackside design, real McLaren contracts, Dell product pricing, and anything under NDA. McLaren Racing, Dell Technologies, and Google are trademarks of their owners. No affiliation or endorsement is implied, and no logos are used.

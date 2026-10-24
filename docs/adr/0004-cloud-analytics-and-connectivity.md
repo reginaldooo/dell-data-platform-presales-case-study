@@ -5,7 +5,7 @@ Status: Proposed (hypothetical). Only the use of Google Cloud, BigQuery, and Loo
 **Summary (Y-statement):** In the context of a team that uses BigQuery and Looker for race data and keeps design IP on site, facing a post-race volume of about 46 Mbps on average, we decided to send only derived analytics data to GCP over HA VPN, and neglected moving raw data, tiering raw files with CloudPools, or buying a private Interconnect, to respect data residency at the lowest complexity, accepting internet-path latency for batch loads.
 
 ## Context and drivers
-- Google Cloud is McLaren's cloud partner, and BigQuery and Looker are used for race data [S6].
+- Google Cloud is McLaren Racing's cloud partner, and BigQuery and Looker are used for race data [S6].
 - Design IP is confidential, and FIA rules require teams to prevent its disclosure to other teams [S30] [S8]; aero and CFD are regulated [S9].
 - Volumes: 1.5 TB per weekend, 34.5 TB per year, 46.3 Mbps average, 0.833 Gbps in a 4 h window (A1, A3 to A5).
 

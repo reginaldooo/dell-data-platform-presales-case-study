@@ -1,6 +1,6 @@
 # ADR-0002: Replicate, back up to PowerProtect DD, and add an immutable Cyber Recovery vault
 
-Status: **Proposed (hypothetical).** This is a proposed approach to protection. It is **not** a public statement about McLaren's design: publicly, only "built-in protection and replication" is mentioned and no protection product is named [S3]. Date: 2026-10-23.
+Status: **Proposed (hypothetical).** This is a proposed approach to protection. It is **not** a public statement about McLaren Racing's design: publicly, only "built-in protection and replication" is mentioned and no protection product is named [S3]. Date: 2026-10-23.
 
 **Summary (Y-statement):** In the context of tier-1 data with an assumed RPO of 15 minutes and RTO of 4 hours, facing ransomware risk and tight turnarounds between races, we would decide for native replication plus PowerProtect DD backup plus an immutable, air-gapped Cyber Recovery vault, and neglect replication alone, to get recoverable clean copies, accepting extra cost and an isolated environment to run.
 

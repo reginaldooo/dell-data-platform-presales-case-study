@@ -1,6 +1,6 @@
 # ADR-0005: Size AI compute by workload class, inference first, training only when justified
 
-Status: **Proposed (hypothetical).** Publicly, McLaren and Dell say only that the team uses the Dell AI Factory, including PowerEdge servers, to process about 1.5 TB per race weekend for simulation, digital-twin modelling, and scenario planning [S2]. No server model, GPU type, or count is published. The approach below is reasoning from Dell's own guidance, not a description of McLaren's environment. Date: 2026-10-23.
+Status: **Proposed (hypothetical).** Publicly, McLaren Racing and Dell Technologies say only that the team uses the Dell AI Factory, including PowerEdge servers, to process about 1.5 TB per race weekend for simulation, digital-twin modelling, and scenario planning [S2]. No server model, GPU type, or count is published. The approach below is reasoning from Dell's own guidance, not a description of McLaren's environment. Date: 2026-10-23.
 
 **Summary (Y-statement):** In the context of a team that turns race-weekend data into simulations and digital-twin scenarios, facing uncertainty about how much of the AI work is training and how much is inference, we would decide to size compute by workload class, starting with inference-class PowerEdge servers and keeping models and data on PowerScale, and neglect buying one large training-class system for everything, to avoid paying for idle GPU capacity, accepting that a later training need may require a second step.
 

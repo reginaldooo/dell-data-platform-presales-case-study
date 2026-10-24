@@ -32,7 +32,7 @@ Option C. Placement by class:
 **Analogy:** the race engineer's laptop (small, fast, needed now) versus the archive room (huge, organized, always open). You do not run the archive room from a laptop, and you do not keep the live data in the archive.
 
 ## Consequences
-- Positive: each workload meets its performance and scale needs; this matches Dell's own positioning and what McLaren states publicly.
+- Positive: each workload meets its performance and scale needs; this matches Dell's own positioning and what McLaren Racing states publicly.
 - Negative: two platforms to size, monitor, and protect; the boundary between classes needs an owner.
 
 ## Confidence and revisit

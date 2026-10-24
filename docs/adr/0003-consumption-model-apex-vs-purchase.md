@@ -5,7 +5,7 @@ Status: Accepted as an analysis of public information. Date: 2026-10-23.
 **Summary (Y-statement):** In the context of storage demand that grows with every race and spikes around events, facing the risk of over-buying or running short, we decided for a subscription with a committed baseline plus pre-deployed buffer capacity (Dell APEX Infrastructure), and neglected buying capacity sized for peak, to align spend with usage, accepting a term commitment and metering.
 
 ## Context and drivers
-- McLaren publicly subscribes to its Dell storage through APEX Infrastructure [S3]. This ADR explains why that logic fits; it says nothing about McLaren's actual contract or prices.
+- McLaren Racing publicly subscribes to its Dell Technologies storage through APEX Infrastructure [S3]. This ADR explains why that logic fits; it says nothing about McLaren's actual contract or prices.
 - Demand grows steadily (A3, A8) and spikes with the race calendar (A2).
 - The team works under a cost cap [S9]; how it treats subscription versus purchase is not verified here.
 
